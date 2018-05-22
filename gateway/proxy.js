@@ -19,6 +19,11 @@ app.use('/', (req, res) => {
     // proxy.web(req, res, {
     //   target: 'http://34.219.166.80:8080/'
     // });
+    var ip = (req.headers['x-forwarded-for'] ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress).split(",")[0];
+    console.log(ip);
     res.status(200).send(req.headers.host)
   } else {
     res.status(400).json({
