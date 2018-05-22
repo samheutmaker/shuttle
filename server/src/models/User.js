@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import {
-  TOKEN_SECRET
+  JWT_TOKEN_SECRET
 } from './../env';
 
 const userSchema = mongoose.Schema({
@@ -40,11 +40,9 @@ class User {
     return jwt.sign({
       id: this._id,
       created: Date.now(),
-    }, TOKEN_SECRET);
+    }, JWT_TOKEN_SECRET);
   }
 }
-
-
 
 userSchema.loadClass(User);
 

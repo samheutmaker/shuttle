@@ -99,6 +99,17 @@ class Client {
       .then(res => res.body)
       .catch(this._handleError);
   }
+  // Token
+  createToken() {
+    return this
+      .post('/token/create', {})
+      .then(res => {
+        this._setToken(res.body.token);
+        return res;
+      })
+      .then(res => res.body)
+      .catch(this._handleError);
+  }
 }
 
 let client = new Client('http://localhost:3000');
@@ -111,7 +122,6 @@ let client = new Client('http://localhost:3000');
 
 
 client.login('something', 'somethinelse')
-  .then(res => {
-    console.log(res);
-  })
+  .then(() => client.createToken())
+  .then((res) => console.log(res))
   .catch(error => console.log(error))

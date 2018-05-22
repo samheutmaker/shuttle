@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import userRoutes from './routes/user-routes'
+import tokenRoutes from './routes/token-routes'
 import {
   MONGO_DB_URL,
   HTTP_PORT
@@ -10,6 +11,7 @@ mongoose.connect(MONGO_DB_URL);
 const app = express();
 
 app.use('/auth', userRoutes);
+app.use('/token', tokenRoutes);
 
 function start() {
   return new Promise((resolve) => {
