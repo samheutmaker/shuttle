@@ -16,9 +16,10 @@ app.use('/', (req, res) => {
     delete req.headers['proxy-authorization'];
     delete req.headers['proxy-connection'];
     console.log(req.headers);
-    proxy.web(req, res, {
-      target: 'http://34.219.166.80:8080/'
-    });
+    // proxy.web(req, res, {
+    //   target: 'http://34.219.166.80:8080/'
+    // });
+    res.status(200).send('Success')
   } else {
     res.status(400).json({
       error: 'Invalid API Token'
