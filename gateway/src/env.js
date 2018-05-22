@@ -3,7 +3,7 @@ const HTTP_PORT = process.env.HTTP_PORT || '3001';
 const JWT_TOKEN_SECRET = process.env.TOKEN_SECRET || 'CHANGE_ME_@#$%@$%@#$';
 const API_TOKEN_SECRET = process.env.TOKEN_SECRET || 'CHANGE_ME_@#$%@3434$%@#$';
 
-export {
+module.exports = exports = {
   MONGO_DB_URL,
   HTTP_PORT,
   JWT_TOKEN_SECRET,
