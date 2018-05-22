@@ -11,7 +11,6 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    select: false,
   },
   created: {
     type: Number,
@@ -33,6 +32,9 @@ class User {
   }
   hashPassword(password) {
     this.password = bcrypt.hashSync(password, 8);
+  }
+  comparePassword(password) {
+    return bcrypt.compareSync(password, this.password);
   }
   generateToken() {
     return jwt.sign({

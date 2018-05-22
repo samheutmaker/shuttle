@@ -103,11 +103,14 @@ class Client {
 
 let client = new Client('http://localhost:3000');
 
-client.register({
-  email: 'something',
-  password: 'somethinelse',
-  passwordCheck: 'somethinelse',
-})
+// client.register({
+//   email: 'something',
+//   password: 'somethinelse',
+//   passwordCheck: 'somethinelse',
+// })
+
+
+client.login('something', 'somethinelse')
   .then(res => {
     console.log(res);
   })

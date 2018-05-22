@@ -1,6 +1,7 @@
 import express from 'express'
 import User from './../models/User'
 import bodyParser from 'body-parser'
+import atob from 'atob'
 let jsonParser = bodyParser.json();
 
 const router = express.Router()
@@ -40,6 +41,46 @@ router.post('/register', async (req, res) => {
   user.hashPassword(password);
   user.created = Date.now();
   user = await user.save();
+  let token = user.generateToken();
+
+  res.status(200).json({
+    user: user.toJSON(),
+    token,
+  })
+});
+
+
+router.get('/login', async (req, res) => {
+  let basic = req.headers.authorization;
+
+  if (!basic) {
+    return res.status(422).json({
+      error: `Missing required header: 'authorization'.`
+    });
+  }
+
+  let auth = basic.split(' ')[1];
+  auth = atob(auth);
+  auth = auth.split(':');
+  let email = auth[0];
+  let password = auth[1];
+
+  let user = await User.findOne({ email: email });
+
+  if (!user) {
+    return res.status(422).json({
+      error: `An account with email ${email} does not exist.`
+    });
+  }
+
+  let isValid = user.comparePassword(password);
+
+  if (!isValid) {
+    return res.status(422).json({
+      error: `Invalid Password.`
+    });
+  }
+
   let token = user.generateToken();
 
   res.status(200).json({
