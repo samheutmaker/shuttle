@@ -103,10 +103,27 @@ class Client {
   createToken() {
     return this
       .post('/token/create', {})
-      .then(res => {
-        this._setToken(res.body.token);
-        return res;
+      .then(res => res.body)
+      .catch(this._handleError);
+  }
+  listTokens() {
+    return this
+      .get('/token/list')
+      .then(res => res.body)
+      .catch(this._handleError);
+  }
+  updateToken(_id, active) {
+    return this
+      .put('/token/update', {
+        _id,
+        active,
       })
+      .then(res => res.body)
+      .catch(this._handleError);
+  }
+  deleteToken(_id) {
+    return this
+      .delete('/token/delete', { _id })
       .then(res => res.body)
       .catch(this._handleError);
   }
@@ -123,5 +140,9 @@ let client = new Client('http://localhost:3000');
 
 client.login('something', 'somethinelse')
   .then(() => client.createToken())
+  .then((res) => {
+    console.log(res);
+    return client.deleteToken(res._id);
+  })
   .then((res) => console.log(res))
   .catch(error => console.log(error))

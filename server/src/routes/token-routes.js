@@ -19,9 +19,32 @@ router.post('/create', jsonParser, checkToken, async (req, res) => {
 
   token = await token.save();
 
-  res.status(200).json({
-    token
-  });
+  res.status(200).json(token);
+});
+
+router.get('/list', checkToken, async (req, res) => {
+  let ownerId = req.user._id;
+  let tokens = await Token.find({ ownerId });
+  res.status(200).json(tokens);
+});
+
+router.put('/update', jsonParser, checkToken, async (req, res) => {
+  let ownerId = req.user._id;
+  let {
+    _id,
+    active
+  } = req.body;
+  let token = await Token.findOneAndUpdate({ ownerId, _id }, { active }, { new: true });
+  res.status(200).json(token);
+})
+
+router.delete('/delete', jsonParser, checkToken, async (req, res) => {
+  let ownerId = req.user._id;
+  let {
+    _id,
+  } = req.body;
+  let status = await Token.findOne({ ownerId, _id }).remove();
+  res.status(200).json(status);
 });
 
 export default router
