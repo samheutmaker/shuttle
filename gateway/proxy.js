@@ -19,7 +19,7 @@ app.use('/', (req, res) => {
     // proxy.web(req, res, {
     //   target: 'http://34.219.166.80:8080/'
     // });
-    res.status(200).send('Success')
+    res.status(200).send(req.headers.host)
   } else {
     res.status(400).json({
       error: 'Invalid API Token'
