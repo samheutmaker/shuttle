@@ -16,9 +16,7 @@ router.post('/create', jsonParser, checkToken, async (req, res) => {
   token.expires = req.body.expires || null;
   token.active = true;
   token.generateToken();
-
   token = await token.save();
-
   res.status(200).json(token);
 });
 

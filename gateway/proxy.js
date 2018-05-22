@@ -3,12 +3,14 @@ let express = require('express'),
   httpProxy = require('http-proxy'),
   proxy = httpProxy.createProxyServer({});
 
-const PORT = 3333;
+const {
+  HTTP_PORT
+} = require('./src/env');
 
 
 app.use('/', (req, res) => {
   let token = req.headers['proxy-authorization'];
-  console.log(req.headers);
+  console.log(req);
 
   if (true) {
     delete req.headers['proxy-authorization'];
@@ -25,4 +27,4 @@ app.use('/', (req, res) => {
 })
 
 
-app.listen(PORT, () => console.log(`Server live on ${PORT}`))
+app.listen(HTTP_PORT, () => console.log(`Server live on ${HTTP_PORT}`))
