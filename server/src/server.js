@@ -1,5 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import redis from './redis'
+import Token from './models/Token'
 import userRoutes from './routes/user-routes'
 import tokenRoutes from './routes/token-routes'
 import {
@@ -7,9 +9,17 @@ import {
   HTTP_PORT
 } from './env'
 
+
+// Redis
+((async () => {
+  let tokens = await Token.find();
+  tokens.forEach(token => {
+    redis.set(token.token, token.ownerId);
+  });
+})())
+
 mongoose.connect(MONGO_DB_URL);
 const app = express();
-
 app.use('/auth', userRoutes);
 app.use('/token', tokenRoutes);
 
